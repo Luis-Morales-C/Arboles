@@ -91,6 +91,24 @@ public class ArbolBinario {
             }
         }
     }
+    public List<Integer> encontrarVerticesInternos() {
+        List<Integer> verticesInternos = new ArrayList<>();
+        encontrarVerticesInternosRecursivo(nodoRaiz, verticesInternos);
+        return verticesInternos;
+    }
+
+    private void encontrarVerticesInternosRecursivo(Nodo nodoActual, List<Integer> verticesInternos) {
+        if (nodoActual != null) {
+            // Verificar si el nodo no es la raíz y tiene al menos un hijo
+            if (nodoActual != nodoRaiz && (nodoActual.getNodoIzquierda() != null || nodoActual.getNodoDerecha() != null)) {
+                verticesInternos.add(nodoActual.getValorNodo());
+            }
+            // Recursivamente buscar vértices internos en los hijos izquierdo y derecho
+            encontrarVerticesInternosRecursivo(nodoActual.getNodoIzquierda(), verticesInternos);
+            encontrarVerticesInternosRecursivo(nodoActual.getNodoDerecha(), verticesInternos);
+        }
+    }
+
 
     public void imprimirEnOrden() {
         imprimirEnOrdenRecursivo(nodoRaiz);
