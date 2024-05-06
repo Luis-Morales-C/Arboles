@@ -136,8 +136,8 @@ public class ArbolBinarioController {
             gc.fillText(String.valueOf(nodo.getValorNodo()), x - 5, y + 5);
 
             // Dibujar las conexiones a los nodos hijos
-            double offsetY = 100;
-            double extensionLinea = 30; // Ajusta la longitud de las líneas de conexión
+            double offsetY = 70;
+            double extensionLinea = 20; // Ajusta la longitud de las líneas de conexión
             if (nodo.getNodoIzquierda() != null) {
                 double xIzquierda = x - offsetX;
                 double yIzquierda = y + offsetY;

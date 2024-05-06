@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="681.0" prefWidth="986.0" style="-fx-background-color: #F2EC9F;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolBinarioController">
+<AnchorPane prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: #F2EC9F;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolBinarioController">
    <children>
       <Button fx:id="btnCrearNodoBinario" layoutX="855.0" layoutY="149.0" mnemonicParsing="false" onAction="#CrearNodo" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Crear" textFill="WHITE" AnchorPane.rightAnchor="63.0" AnchorPane.topAnchor="149.0">
          <font>
@@ -30,7 +30,7 @@
          <font>
             <Font name="Sitka Text" size="18.0" />
          </font></Label>
-      <Canvas fx:id="canvas" height="546.0" layoutX="34.0" layoutY="90.0" width="502.0" />
+      <Canvas fx:id="canvas" height="567.0" layoutX="14.0" layoutY="82.0" width="562.0" />
       <Pane fx:id="panaInformacion" layoutX="531.0" layoutY="300.0" prefHeight="311.0" prefWidth="436.0" />
       <Label layoutX="585.0" layoutY="223.0" prefHeight="22.0" prefWidth="257.0" text="Obtener detalle del grafo">
          <font>
