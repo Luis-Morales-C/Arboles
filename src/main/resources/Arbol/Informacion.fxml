@@ -37,13 +37,18 @@
                      <children>
                         <Label layoutY="619.0" prefHeight="34.0" prefWidth="1129.0" style="-fx-background-color: #121212;" textFill="#791515" />
                         <Label prefHeight="21.0" prefWidth="1129.0" style="-fx-background-color: #318876;" textFill="WHITE" />
+                        <ImageView fitHeight="520.0" fitWidth="916.0" layoutX="14.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../Users/Luis%20Carlos%20Morales/Pictures/Screenshots/Relacion.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
             <Tab fx:id="TabInformacion11">
                <graphic>
-                  <Label prefHeight="17.0" prefWidth="85.0" text="Introduccion" textFill="#111010" />
+                  <Label prefHeight="17.0" prefWidth="150.0" text="Usos y aplicaciones" textFill="#111010" />
                </graphic>
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="621.0" prefWidth="1019.0">

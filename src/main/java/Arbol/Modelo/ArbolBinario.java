@@ -82,10 +82,8 @@ public class ArbolBinario {
     private void encontrarHojasRecursivo(Nodo nodoActual, List<Integer> hojas) {
         if (nodoActual != null) {
             if (nodoActual.getNodoIzquierda() == null && nodoActual.getNodoDerecha() == null) {
-                // El nodo actual es una hoja
                 hojas.add(nodoActual.getValorNodo());
             } else {
-                // Recursivamente buscar hojas en los hijos izquierdo y derecho
                 encontrarHojasRecursivo(nodoActual.getNodoIzquierda(), hojas);
                 encontrarHojasRecursivo(nodoActual.getNodoDerecha(), hojas);
             }
@@ -99,11 +97,11 @@ public class ArbolBinario {
 
     private void encontrarVerticesInternosRecursivo(Nodo nodoActual, List<Integer> verticesInternos) {
         if (nodoActual != null) {
-            // Verificar si el nodo no es la raíz y tiene al menos un hijo
+
             if (nodoActual != nodoRaiz && (nodoActual.getNodoIzquierda() != null || nodoActual.getNodoDerecha() != null)) {
                 verticesInternos.add(nodoActual.getValorNodo());
             }
-            // Recursivamente buscar vértices internos en los hijos izquierdo y derecho
+
             encontrarVerticesInternosRecursivo(nodoActual.getNodoIzquierda(), verticesInternos);
             encontrarVerticesInternosRecursivo(nodoActual.getNodoDerecha(), verticesInternos);
         }
