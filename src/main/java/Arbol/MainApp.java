@@ -11,6 +11,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws IOException {
         showMainStage(stage);
         showInfoStage();
+        showArbolUserStage();
     }
 
     // Método para iniciar la ventana principal
@@ -31,6 +32,15 @@ public class MainApp extends Application {
         infoStage.setScene(scene);
         infoStage.show();
     }
+    private void showArbolUserStage() throws IOException {
+        Stage infoStage = new Stage();
+        FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("ArbolUser.fxml"));
+        Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
+        infoStage.setTitle("Arbol user");
+        infoStage.setScene(scene);
+        infoStage.show();
+    }
+
 
     public static void main(String[] args) {
         launch();
