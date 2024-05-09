@@ -120,22 +120,26 @@ public class ArbolUserController {
         for (Nodo nodo : grafo.getNodos()) {
             double distancia = Math.sqrt(Math.pow(x - nodo.getX(), 2) + Math.pow(y - nodo.getY(), 2));
             if (distancia <= 15) { // Consideramos seleccionado si el clic está dentro del radio del nodo
-                if (nodoSeleccionado1 == null) {
-                    nodoSeleccionado1 = nodo;
-                } else if (nodoSeleccionado2 == null) {
-                    nodoSeleccionado2 = nodo;
-                } else{
-                    // Si ya hay dos nodos seleccionados, deseleccionarlos y seleccionar el actual
-                    nodoSeleccionado1 = null;
-                    nodoSeleccionado2 = null;
+                if (nodo == nodoSeleccionado1) {
+                    nodoSeleccionado1 = null; // Deseleccionar el nodo si ya estaba seleccionado
+                } else if (nodo == nodoSeleccionado2) {
+                    nodoSeleccionado2 = null; // Deseleccionar el nodo si ya estaba seleccionado
+                } else {
+                    if (nodoSeleccionado1 == null) {
+                        nodoSeleccionado1 = nodo;
+                    } else if (nodoSeleccionado2 == null) {
+                        nodoSeleccionado2 = nodo;
+                    } else {
+                        // Si ya hay dos nodos seleccionados, deseleccionarlos y seleccionar el actual
+                        nodoSeleccionado1 = null;
+                        nodoSeleccionado2 = null;
+                    }
                 }
                 dibujar(); // Redibujar para actualizar la apariencia
                 return; // Terminar el bucle ya que solo queremos seleccionar un nodo a la vez
             }
         }
     }
-
-
 
     private void moverNodo(double x, double y) {
         if (nodoSeleccionado1 != null) {
