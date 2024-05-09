@@ -28,10 +28,14 @@ public class ArbolUserController {
     @FXML
     private Button btnCrearArista;
 
-    private List<Nodo> nodosSeleccionados = new ArrayList<>();
+
     @FXML
     void crearArista(ActionEvent event) {
-
+        if (nodoSeleccionado1 != null && nodoSeleccionado2 != null) {
+            Arista arista = new Arista(nodoSeleccionado1, nodoSeleccionado2);
+            grafo.agregarArista(arista);
+            dibujar();
+        }
     }
     @FXML
     public void initialize() {
@@ -54,17 +58,17 @@ public class ArbolUserController {
     }
 
     private void crearNodo(double x, double y) {
-        // Verificar si el clic está dentro de algún nodo existente
+
         boolean dentroDeNodoExistente = false;
         for (Nodo nodo : grafo.getNodos()) {
             double distancia = Math.sqrt(Math.pow(x - nodo.getX(), 2) + Math.pow(y - nodo.getY(), 2));
-            if (distancia <= 15) { // Consideramos dentro si el clic está dentro del radio del nodo
+            if (distancia <= 15) {
                 dentroDeNodoExistente = true;
                 break;
             }
         }
 
-        // Si el clic no está dentro de un nodo existente, se crea uno nuevo
+
         if (!dentroDeNodoExistente) {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Nombre del Nodo");
@@ -96,6 +100,13 @@ public class ArbolUserController {
             gc.fillText(nodo.getNombre(), nodo.getX() - 10, nodo.getY() - 23);
         }
 
+        // Dibujar aristas
+        // Dibujar aristas
+        for (Arista arista : grafo.getAristas()) {
+            gc.setStroke(Color.BLACK);
+            gc.strokeLine(arista.getOrigen().getX(), arista.getOrigen().getY(), arista.getDestino().getX(), arista.getDestino().getY());
+        }
+
 
     }
 
@@ -103,6 +114,7 @@ public class ArbolUserController {
     private Nodo nodoSeleccionado2 = null;
     private double offsetX;
     private double offsetY;
+
 
     private void seleccionarNodo(double x, double y) {
         for (Nodo nodo : grafo.getNodos()) {
@@ -122,6 +134,8 @@ public class ArbolUserController {
             }
         }
     }
+
+
 
     private void moverNodo(double x, double y) {
         if (nodoSeleccionado1 != null) {
@@ -145,13 +159,14 @@ public class ArbolUserController {
                 return;
             }
         }
-    }
 
+    }
     @FXML
     private void onMouseDragged(MouseEvent event) {
         double x = event.getX();
         double y = event.getY();
         moverNodo(x, y);
+
         dibujar();
     }
 }

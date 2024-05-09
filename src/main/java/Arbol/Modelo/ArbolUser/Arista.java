@@ -3,6 +3,8 @@ package Arbol.Modelo.ArbolUser;
 public class Arista {
     private Nodo origen;
     private Nodo destino;
+    private double controlX;
+    private double controlY;
 
     public Arista(Nodo origen, Nodo destino) {
         this.origen = origen;
@@ -23,5 +25,21 @@ public class Arista {
 
     public void setDestino(Nodo destino) {
         this.destino = destino;
+    }
+
+    public double getControlX() {
+        return controlX;
+    }
+
+    public void setControlX(double controlX) {
+        this.controlX = controlX;
+    }
+
+    public double getControlY() {
+        return controlY;
+    }
+
+    public void setControlY(double controlY) {
+        this.controlY = controlY;
     }
 }
