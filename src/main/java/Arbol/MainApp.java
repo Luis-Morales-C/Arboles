@@ -14,7 +14,6 @@ public class MainApp extends Application {
         showArbolUserStage();
     }
 
-    // Método para iniciar la ventana principal
     private void showMainStage(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("arbolBinario.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 950, 650);
@@ -23,7 +22,7 @@ public class MainApp extends Application {
         stage.show();
     }
 
-    // Método para iniciar la ventana de información
+
     private void showInfoStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("informacion.fxml"));
