@@ -9,8 +9,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.QuadCurve;
@@ -37,6 +39,9 @@ public class ArbolUserController {
     private GraphicsContext gc;
 
     @FXML
+    private AnchorPane anchorPaneDetalles;
+
+    @FXML
     private Button btnCrearArista;
 
 
@@ -49,6 +54,47 @@ public class ArbolUserController {
         dibujarArbol();
 
     }
+    @FXML
+    void obtenerDetallesArbol(ActionEvent event) {
+        List<Nodo> hojas = grafo.encontrarHojas();
+        if (hojas.isEmpty()) {
+            mostrarMensajeError("El árbol no tiene hojas.");
+            return;
+        }
+
+        List<String> topologia = grafo.describirTopologia();
+        if (topologia.isEmpty()) {
+            mostrarMensajeError("No se pudo determinar la topología del árbol.");
+            return;
+        }
+
+        anchorPaneDetalles.getChildren().clear();
+
+        // Crear una etiqueta para mostrar las hojas
+        Label hojasLabel = new Label("Hojas del árbol:");
+        hojasLabel.setLayoutX(10);
+        hojasLabel.setLayoutY(10);
+        anchorPaneDetalles.getChildren().add(hojasLabel);
+
+        // Mostrar cada hoja en una etiqueta separada
+        double y =30;
+        for (Nodo hoja : hojas) {
+            Label hojaLabel = new Label(hoja.getNombre());
+            hojaLabel.setLayoutX(20);
+            hojaLabel.setLayoutY(y);
+            anchorPaneDetalles.getChildren().add(hojaLabel);
+            y += 5; // Incrementar la posición Y para la próxima etiqueta
+        }
+        y += 10; // Incrementar la posición Y para la próxima etiqueta
+        for (String descripcion : topologia) {
+            Label topologiaLabel = new Label(descripcion);
+            topologiaLabel.setLayoutX(10);
+            topologiaLabel.setLayoutY(y);
+            anchorPaneDetalles.getChildren().add(topologiaLabel);
+            y += 10; // Incrementar la posición Y para la próxima etiqueta
+            }
+        }
+
 
 
     @FXML

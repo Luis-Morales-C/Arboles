@@ -7,6 +7,11 @@ public class Grafo {
     private List<Arista> aristas;
     private Map<String, Integer> contadorAristas;
 
+    private Tipo tipo;
+
+
+
+
     public Grafo() {
         this.nodos = new ArrayList<>();
         this.aristas = new ArrayList<>();
@@ -72,7 +77,6 @@ public class Grafo {
         return visitados.size() == nodos.size();
     }
 
-
     private String obtenerClave(Arista arista) {
         String nombreOrigen = arista.getOrigen().getNombre();
         String nombreDestino = arista.getDestino().getNombre();
@@ -88,15 +92,11 @@ public class Grafo {
         List<Nodo> camino = new ArrayList<>();
         for (Nodo nodo : nodos) {
             if (!visitados.contains(nodo) && dfs(nodo, null, visitados, camino)) {
-
                 StringBuilder circuito = new StringBuilder();
-                circuito.append(camino.get(camino.size() - 1).getNombre());
-                for (int i = camino.size() - 2; i >= 0; i--) {
-                    circuito.append(" -> ").append(camino.get(i).getNombre());
-                    if (camino.get(i) == camino.get(camino.size() - 1)) {
-                        break;
-                    }
+                for (Nodo n : camino) {
+                    circuito.append(n.getNombre()).append(" -> ");
                 }
+                circuito.append(camino.get(0).getNombre());
                 return circuito.toString();
             }
         }
@@ -120,15 +120,87 @@ public class Grafo {
                         return true;
                     }
                 } else if (!vecino.equals(padre)) {
-
+                    // Encuentra un ciclo
                     return true;
                 }
             }
         }
 
         camino.remove(camino.size() - 1);
+        visitados.remove(actual);
         return false;
     }
+
+    public List<Nodo> encontrarHojas() {
+        List<Nodo> hojas = new ArrayList<>();
+        for (Nodo nodo : nodos) {
+            if (esHoja(nodo)) {
+                hojas.add(nodo);
+            }
+        }
+        return hojas;
+    }
+
+    private boolean esHoja(Nodo nodo) {
+        int contadorVecinos = 0;
+        for (Arista arista : aristas) {
+            if (arista.getOrigen() == nodo || arista.getDestino() == nodo) {
+                contadorVecinos++;
+            }
+        }
+        return contadorVecinos <= 1;
+    }
+
+    public List<String> describirTopologia() {
+        List<String> descripcion = new ArrayList<>();
+        int gradoMaximo = 0;
+
+        for (Nodo nodo : nodos) {
+            int gradoNodo = obtenerGradoNodo(nodo);
+            gradoMaximo = Math.max(gradoMaximo, gradoNodo);
+        }
+
+        if (gradoMaximo == 0) {
+            descripcion.add("El grafo está vacío.");
+        } else {
+            descripcion.add("El grado máximo del grafo es " + gradoMaximo + ".");
+            descripcion.add("Tipo de árbol: " + obtenerTipoArbol(gradoMaximo));
+        }
+
+        return descripcion;
+    }
+
+    private String obtenerTipoArbol(int gradoMaximo) {
+        switch (gradoMaximo) {
+            case 2:
+                return Tipo.Arbol_binario.name();
+            case 3:
+                return Tipo.Arbol_ternario.name();
+            case 4:
+                return Tipo.Arbol_cuanternario.name();
+            case 5:
+                return Tipo.Arbol_quinario.name();
+            case 6:
+                return Tipo.Árbol_senario.name();
+            case 7:
+                return Tipo.Árbol_septenario.name();
+            default:
+                return "Tipo de árbol no definido para este grado.";
+        }
+    }
+
+    private int obtenerGradoNodo(Nodo nodo) {
+        int grado = 0;
+        for (Arista arista : aristas) {
+            if (arista.getOrigen() == nodo || arista.getDestino() == nodo) {
+                grado++;
+            }
+        }
+        return grado;
+    }
+
+
+
     public boolean esArbol() {
         return esConexo() && encontrarCircuito().equals("No existen circuitos");
     }
