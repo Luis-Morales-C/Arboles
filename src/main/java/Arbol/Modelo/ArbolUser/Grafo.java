@@ -29,6 +29,19 @@ public class Grafo {
         String clave = obtenerClave(arista);
         contadorAristas.put(clave, contadorAristas.getOrDefault(clave, 0) + 1);
     }
+    public void eliminarNodo(Nodo nodo) {
+        List<Arista> aristasAEliminar = new ArrayList<>();
+        for (Arista arista : aristas) {
+            if (arista.getOrigen() == nodo || arista.getDestino() == nodo) {
+                aristasAEliminar.add(arista);
+            }
+        }
+        aristas.removeAll(aristasAEliminar);
+
+        nodos.remove(nodo);
+    }
+
+
     public int obtenerContadorAristas(Arista arista) {
         String clave = obtenerClave(arista);
         return contadorAristas.getOrDefault(clave, 0);

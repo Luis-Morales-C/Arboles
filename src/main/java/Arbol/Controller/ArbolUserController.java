@@ -16,9 +16,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.QuadCurve;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ArbolUserController {
 
@@ -40,6 +38,11 @@ public class ArbolUserController {
 
     @FXML
     private Button btnCrearArista;
+
+
+    @FXML
+    private Button btnEliminarNodo;
+
 
     @FXML
     void obtenerArbol(ActionEvent event) {
@@ -74,6 +77,32 @@ public class ArbolUserController {
             double x = event.getX();
             double y = event.getY();
             seleccionarNodo(x, y);
+        });
+    }
+
+    @FXML
+    void eliminarNodo(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Eliminar Nodo");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Ingrese el nombre del nodo a eliminar:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(nombre -> {
+            Nodo nodoAEliminar = null;
+            for (Nodo nodo : grafo.getNodos()) {
+                if (nodo.getNombre().equals(nombre)) {
+                    nodoAEliminar = nodo;
+                    break;
+                }
+            }
+
+            if (nodoAEliminar != null) {
+                grafo.eliminarNodo(nodoAEliminar);
+                dibujar();
+            } else {
+                mostrarMensajeError("El nodo especificado no existe en el grafo.");
+            }
         });
     }
 
@@ -214,7 +243,6 @@ public class ArbolUserController {
             return;
         }
 
-
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Nombre del Nodo Raíz");
         dialog.setHeaderText(null);
@@ -231,10 +259,52 @@ public class ArbolUserController {
         }
 
         if (nodoRaiz != null) {
-            dibujarNodo(nodoRaiz, canvasArbol.getWidth() / 2, 50, canvasArbol.getWidth() / 4, gc);
+            dibujarArbolRecursivo(nodoRaiz, canvasArbol.getWidth() / 2, 50, 100, gc, new HashSet<>());
+        }
+    }
+    private void dibujarArbolRecursivo(Nodo nodo, double x, double y, double offsetX, GraphicsContext gc, Set<Nodo> visitados) {
+        if (nodo != null && !visitados.contains(nodo)) {
+            visitados.add(nodo);
+
+            // Dibujar nodo
+            double radio = 20;
+            Color colorRelleno = Color.BLACK;
+            Color colorTexto = Color.CYAN;
+            int tamanoTexto = 18;
+
+            gc.setFill(colorRelleno);
+            gc.fillOval(x - radio, y - radio, 2 * radio, 2 * radio);
+            gc.setFill(colorTexto);
+            gc.setFont(Font.font(tamanoTexto));
+            gc.fillText(nodo.getNombre(), x - 5, y + 5);
+
+            // Dibujar conexiones con los hijos
+            double offsetY = 90;
+            double extensionLinea = 40;
+            List<Nodo> hijos = obtenerHijos(nodo);
+            int cantidadHijos = hijos.size();
+            double separacion = cantidadHijos == 0 ? 0 : (2 * offsetX) / (cantidadHijos + 1);
+            double xHijo = x - offsetX;
+            for (Nodo hijo : hijos) {
+                xHijo += separacion;
+                double yHijo = y + offsetY;
+                gc.strokeLine(x, y + radio, xHijo, yHijo - radio);
+                dibujarArbolRecursivo(hijo, xHijo, yHijo, offsetX / 2, gc, visitados);
+            }
         }
     }
 
+    private List<Nodo> obtenerHijos(Nodo nodo) {
+        List<Nodo> hijos = new ArrayList<>();
+        for (Arista arista : grafo.getAristas()) {
+            if (arista.getOrigen() == nodo) {
+                hijos.add(arista.getDestino());
+            } else if (arista.getDestino() == nodo) {
+                hijos.add(arista.getOrigen());
+            }
+        }
+        return hijos;
+    }
     private void dibujarNodo(Nodo nodo, double x, double y, double offsetX, GraphicsContext gc) {
         if (nodo != null) {
 
