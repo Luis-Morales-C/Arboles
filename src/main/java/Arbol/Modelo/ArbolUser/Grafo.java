@@ -8,9 +8,7 @@ public class Grafo {
     private Map<String, Integer> contadorAristas;
 
     private Tipo tipo;
-
-
-
+    
 
     public Grafo() {
         this.nodos = new ArrayList<>();
@@ -159,19 +157,18 @@ public class Grafo {
             int gradoNodo = obtenerGradoNodo(nodo);
             gradoMaximo = Math.max(gradoMaximo, gradoNodo);
         }
-
         if (gradoMaximo == 0) {
             descripcion.add("El grafo está vacío.");
         } else {
-            descripcion.add("El grado máximo del grafo es " + gradoMaximo + ".");
-            descripcion.add("Tipo de árbol: " + obtenerTipoArbol(gradoMaximo));
+            descripcion.add("" + obtenerTipoArbol(gradoMaximo));
         }
-
         return descripcion;
     }
 
     private String obtenerTipoArbol(int gradoMaximo) {
         switch (gradoMaximo) {
+            case 1:
+                return Tipo.Arbol_binario.name();
             case 2:
                 return Tipo.Arbol_binario.name();
             case 3:
@@ -203,6 +200,69 @@ public class Grafo {
 
     public boolean esArbol() {
         return esConexo() && encontrarCircuito().equals("No existen circuitos");
+    }
+    public boolean estaVacio() {
+        return nodos.isEmpty();
+    }
+
+    public boolean esMultigrafo() {
+        Set<String> conexiones = new HashSet<>();
+        Set<String> conexionesReversas = new HashSet<>();
+
+        for (Arista arista : aristas) {
+            String conexion1 = arista.getOrigen().getNombre() + "-" + arista.getDestino().getNombre();
+            String conexion2 = arista.getDestino().getNombre() + "-" + arista.getOrigen().getNombre();
+
+            if (conexiones.contains(conexion1) || conexionesReversas.contains(conexion2)) {
+                return true;
+            } else {
+                conexiones.add(conexion1);
+                conexionesReversas.add(conexion2);
+            }
+        }
+
+        return false;
+    }
+    public int calcularNivelesGrafo(Nodo raiz) {
+        int maxNivel = 0;
+        Queue<Nodo> cola = new LinkedList<>();
+        Map<Nodo, Integer> niveles = new HashMap<>();
+
+        cola.offer(raiz);
+        niveles.put(raiz, 0);
+
+        while (!cola.isEmpty()) {
+            Nodo nodoActual = cola.poll();
+            int nivelActual = niveles.get(nodoActual);
+            maxNivel = Math.max(maxNivel, nivelActual);
+
+            for (Arista arista : aristas) {
+                Nodo vecino = null;
+                if (arista.getOrigen() == nodoActual) {
+                    vecino = arista.getDestino();
+                } else if (arista.getDestino() == nodoActual) {
+                    vecino = arista.getOrigen();
+                }
+                if (vecino != null && !niveles.containsKey(vecino)) {
+                    niveles.put(vecino, nivelActual + 1);
+                    cola.offer(vecino);
+                }
+            }
+        }
+
+        return maxNivel;
+    }
+    public int calcularPesoArbol() {
+        return nodos.size();
+    }
+    public List<Nodo> encontrarVerticesInternos(Nodo raiz) {
+        List<Nodo> verticesInternos = new ArrayList<>();
+        for (Nodo nodo : this.nodos) {
+            if (!nodo.equals(raiz) && !esHoja(nodo)) {
+                verticesInternos.add(nodo);
+            }
+        }
+        return verticesInternos;
     }
 
 }

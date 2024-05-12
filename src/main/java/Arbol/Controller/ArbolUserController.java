@@ -56,44 +56,107 @@ public class ArbolUserController {
     }
     @FXML
     void obtenerDetallesArbol(ActionEvent event) {
+        // Obtener la raíz del árbol
+        Nodo raiz = grafo.getNodos().get(0);
+        String nodoRaiz = raiz.getNombre();
+
+        // Encontrar las hojas del árbol
         List<Nodo> hojas = grafo.encontrarHojas();
         if (hojas.isEmpty()) {
             mostrarMensajeError("El árbol no tiene hojas.");
             return;
         }
 
+        // Describir la topología del árbol
         List<String> topologia = grafo.describirTopologia();
         if (topologia.isEmpty()) {
             mostrarMensajeError("No se pudo determinar la topología del árbol.");
             return;
         }
 
+        // Calcular el número de niveles del árbol
+        int niveles = grafo.calcularNivelesGrafo(raiz);
+
+        // Calcular el peso del árbol
+        int pesoArbol = grafo.calcularPesoArbol();
+
+        // Encontrar los vértices internos del árbol
+        List<Nodo> verticesInternos = grafo.encontrarVerticesInternos(raiz);
+
+        // Limpiar el contenedor de detalles
         anchorPaneDetalles.getChildren().clear();
 
-        // Crear una etiqueta para mostrar las hojas
+        // Posición inicial en Y para las etiquetas
+        double y = 10;
+
+        // Etiqueta para la raíz del árbol
+        Label raizLabel = new Label("Raíz del árbol: " + nodoRaiz);
+        raizLabel.setLayoutX(10);
+        raizLabel.setLayoutY(y);
+        anchorPaneDetalles.getChildren().add(raizLabel);
+        y += 25;
+
+        // Etiqueta para las hojas del árbol
         Label hojasLabel = new Label("Hojas del árbol:");
         hojasLabel.setLayoutX(10);
-        hojasLabel.setLayoutY(10);
+        hojasLabel.setLayoutY(y);
         anchorPaneDetalles.getChildren().add(hojasLabel);
+        y += 25;
 
         // Mostrar cada hoja en una etiqueta separada
-        double y =30;
         for (Nodo hoja : hojas) {
             Label hojaLabel = new Label(hoja.getNombre());
             hojaLabel.setLayoutX(20);
             hojaLabel.setLayoutY(y);
             anchorPaneDetalles.getChildren().add(hojaLabel);
-            y += 5; // Incrementar la posición Y para la próxima etiqueta
+            y += 15; // Incrementar la posición Y para la próxima etiqueta
         }
-        y += 10; // Incrementar la posición Y para la próxima etiqueta
+
+        // Etiqueta para los vértices internos del árbol
+        Label verticesInternosLabel = new Label("Vértices internos del árbol:");
+        verticesInternosLabel.setLayoutX(10);
+        verticesInternosLabel.setLayoutY(y);
+        anchorPaneDetalles.getChildren().add(verticesInternosLabel);
+        y += 25;
+
+        // Mostrar los vértices internos del árbol
+        for (Nodo vertice : verticesInternos) {
+            Label verticeLabel = new Label(vertice.getNombre());
+            verticeLabel.setLayoutX(20);
+            verticeLabel.setLayoutY(y);
+            anchorPaneDetalles.getChildren().add(verticeLabel);
+            y += 15;
+        }
+
+        // Etiqueta para la topología del árbol
+        Label topologiaLabel = new Label("Tipo de arbol:");
+        topologiaLabel.setLayoutX(10);
+        topologiaLabel.setLayoutY(y);
+        anchorPaneDetalles.getChildren().add(topologiaLabel);
+        y += 30;
+
+        // Mostrar la topología del árbol
         for (String descripcion : topologia) {
-            Label topologiaLabel = new Label(descripcion);
-            topologiaLabel.setLayoutX(10);
-            topologiaLabel.setLayoutY(y);
-            anchorPaneDetalles.getChildren().add(topologiaLabel);
-            y += 10; // Incrementar la posición Y para la próxima etiqueta
-            }
+            Label descripcionLabel = new Label(descripcion);
+            descripcionLabel.setLayoutX(20);
+            descripcionLabel.setLayoutY(y);
+            anchorPaneDetalles.getChildren().add(descripcionLabel);
+            y += 15;
         }
+
+        // Etiqueta para el número de niveles del árbol
+        Label nivelesLabel = new Label("Número de niveles del árbol: " + niveles);
+        nivelesLabel.setLayoutX(10);
+        nivelesLabel.setLayoutY(y);
+        anchorPaneDetalles.getChildren().add(nivelesLabel);
+        y += 25;
+
+        // Etiqueta para el peso del árbol
+        Label pesoArbolLabel = new Label("Peso del árbol: " + pesoArbol);
+        pesoArbolLabel.setLayoutX(10);
+        pesoArbolLabel.setLayoutY(y);
+        anchorPaneDetalles.getChildren().add(pesoArbolLabel);
+    }
 
 
 
@@ -279,10 +342,20 @@ public class ArbolUserController {
         GraphicsContext gc = canvasArbol.getGraphicsContext2D();
         gc.clearRect(0, 0, canvasArbol.getWidth(), canvasArbol.getHeight());
 
+        if(grafo.estaVacio()){
+            mostrarMensajeError("el grafo esta vacio");
+            return;
+        }
+        if(grafo.esMultigrafo()){
+            mostrarMensajeError("el grafo es un multigrafo");
+            return;
+        }
+
         if (!grafo.esConexo()) {
             mostrarMensajeError("El grafo no es conexo.");
             return;
         }
+
         String circuito = grafo.encontrarCircuito();
         if (!circuito.equals("No existen circuitos")) {
             mostrarMensajeError("El grafo contiene un circuito: " + circuito);

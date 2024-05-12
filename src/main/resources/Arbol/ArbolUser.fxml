@@ -7,16 +7,16 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1464.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolUserController">
    <children>
-      <Canvas fx:id="canvas" height="521.0" layoutX="14.0" layoutY="68.0" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" width="544.0" />
+      <Canvas fx:id="canvas" height="521.0" layoutX="8.0" layoutY="69.0" onMouseDragged="#onMouseDragged" onMousePressed="#onMousePressed" width="522.0" />
       <Button fx:id="btnCrearArista" layoutX="115.0" layoutY="21.0" mnemonicParsing="false" onAction="#crearArista" text="Crear" />
       <Label layoutX="24.0" layoutY="21.0" prefHeight="25.0" prefWidth="106.0" text="Crear arista" />
       <Button fx:id="btnObtener" layoutX="731.0" layoutY="34.0" mnemonicParsing="false" onAction="#obtenerArbol" text="Obtener" />
       <Label layoutX="708.0" layoutY="9.0" prefHeight="25.0" prefWidth="106.0" text="Obtenga su arbol" />
-      <Canvas fx:id="canvasArbol" height="502.0" layoutX="591.0" layoutY="78.0" width="522.0" />
+      <Canvas fx:id="canvasArbol" height="508.0" layoutX="530.0" layoutY="76.0" width="541.0" />
       <Label layoutX="200.0" layoutY="22.0" prefHeight="25.0" prefWidth="106.0" text="eliminar nodo" />
       <Button fx:id="btnEliminarNodo" layoutX="286.0" layoutY="22.0" mnemonicParsing="false" onAction="#eliminarNodo" text="Eliminar" />
       <Label layoutX="1188.0" layoutY="10.0" prefHeight="25.0" prefWidth="106.0" text="Detalles" />
       <Button fx:id="btnObtenerDetalles" layoutX="1181.0" layoutY="35.0" mnemonicParsing="false" onAction="#obtenerDetallesArbol" text="Obtener" />
-      <AnchorPane fx:id="anchorPaneDetalles" layoutX="1161.0" layoutY="83.0" prefHeight="492.0" prefWidth="282.0" />
+      <AnchorPane fx:id="anchorPaneDetalles" layoutX="1094.0" layoutY="72.0" prefHeight="492.0" prefWidth="350.0" />
    </children>
 </AnchorPane>
