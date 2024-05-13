@@ -40,6 +40,8 @@ public class ArbolBinarioController {
     private Button btnObtener;
 
 
+
+
     @FXML
     void ObtenerDetalle(ActionEvent event) {
         // Limpiar el contenido anterior en el Pane

@@ -1,15 +1,22 @@
 package Arbol.Modelo.ArbolUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Nodo {
     private double x;
     private double y;
 
     private String nombre;
 
+
+
+
     public Nodo(double x, double y, String nombre) {
         this.x = x;
         this.y = y;
         this.nombre=nombre;
+
     }
 
     public double getX() {
@@ -35,4 +42,6 @@ public class Nodo {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+
 }

@@ -8,20 +8,48 @@ public class Grafo {
     private Map<String, Integer> contadorAristas;
 
     private Tipo tipo;
-    
 
     public Grafo() {
         this.nodos = new ArrayList<>();
         this.aristas = new ArrayList<>();
         contadorAristas = new HashMap<>();
     }
+    public List<Nodo> obtenerVecinos(Nodo nodo) {
+        List<Nodo> vecinos = new ArrayList<>();
 
-    public List<Nodo> getNodos() {
-        return nodos;
+        // Iterar sobre todas las aristas del grafo
+        for (Arista arista : getAristas()) {
+            // Verificar si el nodo es el origen de la arista
+            if (arista.getOrigen() == nodo) {
+                vecinos.add(arista.getDestino());
+            }
+            // Verificar si el nodo es el destino de la arista
+            else if (arista.getDestino() == nodo) {
+                vecinos.add(arista.getOrigen());
+            }
+        }
+
+        return vecinos;
     }
 
-    public List<Arista> getAristas() {
-        return aristas;
+
+    public Nodo encontrarRaiz() {
+        // Crear un conjunto para almacenar los nodos que son destinos de alguna arista
+        Set<Nodo> nodosDestino = new HashSet<>();
+
+        // Agregar todos los destinos de las aristas al conjunto
+        for (Arista arista : aristas) {
+            nodosDestino.add(arista.getDestino());
+        }
+
+        // Iterar sobre todos los nodos y encontrar aquel que no está en el conjunto de destinos
+        for (Nodo nodo : nodos) {
+            if (!nodosDestino.contains(nodo)) {
+                return nodo; // Este es el nodo raíz
+            }
+        }
+
+        return null; // Si no se encuentra ningún nodo que cumpla la condición, retornar null
     }
 
     public void agregarNodo(Nodo nodo) {
@@ -42,6 +70,15 @@ public class Grafo {
         aristas.removeAll(aristasAEliminar);
 
         nodos.remove(nodo);
+    }
+    private List<Arista> obtenerAristasDelNodo(Nodo nodo) {
+        List<Arista> aristasNodo = new ArrayList<>();
+        for (Arista arista : aristas) {
+            if (arista.getOrigen().equals(nodo) || arista.getDestino().equals(nodo)) {
+                aristasNodo.add(arista);
+            }
+        }
+        return aristasNodo;
     }
 
 
@@ -142,12 +179,13 @@ public class Grafo {
     private boolean esHoja(Nodo nodo) {
         int contadorVecinos = 0;
         for (Arista arista : aristas) {
-            if (arista.getOrigen() == nodo || arista.getDestino() == nodo) {
+            if (arista.getOrigen() == nodo) {
                 contadorVecinos++;
             }
         }
-        return contadorVecinos <= 1;
+        return contadorVecinos == 0; // Un nodo es hoja si no tiene aristas de salida
     }
+
 
     public List<String> describirTopologia() {
         List<String> descripcion = new ArrayList<>();
@@ -189,7 +227,7 @@ public class Grafo {
     private int obtenerGradoNodo(Nodo nodo) {
         int grado = 0;
         for (Arista arista : aristas) {
-            if (arista.getOrigen() == nodo || arista.getDestino() == nodo) {
+            if (arista.getOrigen() == nodo ) {
                 grado++;
             }
         }
@@ -264,5 +302,11 @@ public class Grafo {
         }
         return verticesInternos;
     }
+    public List<Nodo> getNodos() {
+        return nodos;
+    }
 
+    public List<Arista> getAristas() {
+        return aristas;
+    }
 }

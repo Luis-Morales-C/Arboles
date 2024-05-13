@@ -48,6 +48,8 @@ public class ArbolUserController {
     @FXML
     private Button btnEliminarNodo;
 
+    private Grafo arbol = new Grafo();
+
 
     @FXML
     void obtenerArbol(ActionEvent event) {
@@ -55,33 +57,102 @@ public class ArbolUserController {
 
     }
     @FXML
+    private Button btnCrearArbol;
+
+    @FXML
+    public void initialize() {
+        grafo = new Grafo();
+        arbol=new Grafo();
+        gc = canvas.getGraphicsContext2D();
+
+        // Evento para crear un nodo al hacer clic
+        canvas.setOnMouseClicked(event -> {
+            double x = event.getX();
+            double y = event.getY();
+            crearNodo(x, y);
+        });
+
+        // Evento para seleccionar un nodo al hacer clic
+        canvas.setOnMousePressed(event -> {
+            double x = event.getX();
+            double y = event.getY();
+            seleccionarNodo(x, y);
+        });
+    }
+
+    @FXML
+    void crearArbol(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Crear Árbol");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Ingrese el nombre de la raíz del árbol:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(nombreRaiz -> {
+            Nodo raiz = grafo.getNodos().stream()
+                    .filter(nodo -> nodo.getNombre().equals(nombreRaiz))
+                    .findFirst()
+                    .orElse(null);
+
+            if (raiz != null) {
+                arbol = new Grafo(); // Reinicia el grafo del árbol
+                construirArbol(raiz); // Construye el árbol a partir de la raíz seleccionada
+            } else {
+                mostrarMensajeError("El nodo raíz especificado no existe en el grafo.");
+            }
+        });
+    }
+
+    private void construirArbol(Nodo nodo) {
+        Queue<Nodo> cola = new LinkedList<>();
+        Set<Nodo> visitados = new HashSet<>();
+
+        cola.offer(nodo);
+        visitados.add(nodo);
+
+        while (!cola.isEmpty()) {
+            Nodo nodoActual = cola.poll();
+            arbol.agregarNodo(nodoActual);
+
+            List<Nodo> vecinos = grafo.obtenerVecinos(nodoActual);
+            for (Nodo vecino : vecinos) {
+                if (!visitados.contains(vecino)) {
+                    visitados.add(vecino);
+                    cola.offer(vecino);
+                    arbol.agregarArista(new Arista(nodoActual, vecino));
+                }
+            }
+        }
+    }
+
+
+    @FXML
     void obtenerDetallesArbol(ActionEvent event) {
         // Obtener la raíz del árbol
-        Nodo raiz = grafo.getNodos().get(0);
+        Nodo raiz = arbol.getNodos().get(0);
         String nodoRaiz = raiz.getNombre();
 
         // Encontrar las hojas del árbol
-        List<Nodo> hojas = grafo.encontrarHojas();
+        List<Nodo> hojas = arbol.encontrarHojas();
         if (hojas.isEmpty()) {
-            mostrarMensajeError("El árbol no tiene hojas.");
             return;
         }
 
         // Describir la topología del árbol
-        List<String> topologia = grafo.describirTopologia();
+        List<String> topologia = arbol.describirTopologia();
         if (topologia.isEmpty()) {
             mostrarMensajeError("No se pudo determinar la topología del árbol.");
             return;
         }
 
         // Calcular el número de niveles del árbol
-        int niveles = grafo.calcularNivelesGrafo(raiz);
+        int niveles = arbol.calcularNivelesGrafo(raiz);
 
         // Calcular el peso del árbol
-        int pesoArbol = grafo.calcularPesoArbol();
+        int pesoArbol =arbol.calcularPesoArbol();
 
         // Encontrar los vértices internos del árbol
-        List<Nodo> verticesInternos = grafo.encontrarVerticesInternos(raiz);
+        List<Nodo> verticesInternos = arbol.encontrarVerticesInternos(raiz);
 
         // Limpiar el contenedor de detalles
         anchorPaneDetalles.getChildren().clear();
@@ -159,7 +230,6 @@ public class ArbolUserController {
     }
 
 
-
     @FXML
     void crearArista(ActionEvent event) {
         if (nodoSeleccionado1 != null && nodoSeleccionado2 != null) {
@@ -169,25 +239,6 @@ public class ArbolUserController {
         }
     }
 
-    @FXML
-    public void initialize() {
-        grafo = new Grafo();
-        gc = canvas.getGraphicsContext2D();
-
-        // Evento para crear un nodo al hacer clic
-        canvas.setOnMouseClicked(event -> {
-            double x = event.getX();
-            double y = event.getY();
-            crearNodo(x, y);
-        });
-
-        // Evento para seleccionar un nodo al hacer clic
-        canvas.setOnMousePressed(event -> {
-            double x = event.getX();
-            double y = event.getY();
-            seleccionarNodo(x, y);
-        });
-    }
 
     @FXML
     void eliminarNodo(ActionEvent event) {
@@ -337,6 +388,8 @@ public class ArbolUserController {
         dibujar();
     }
 
+
+
     @FXML
     void dibujarArbol() {
         GraphicsContext gc = canvasArbol.getGraphicsContext2D();
@@ -378,7 +431,7 @@ public class ArbolUserController {
         }
 
         if (nodoRaiz != null) {
-            dibujarArbolRecursivo(nodoRaiz, canvasArbol.getWidth() / 2, 50, 100, gc, new HashSet<>());
+            dibujarArbolRecursivo(nodoRaiz, canvasArbol.getWidth() / 2, 50, 200, gc, new HashSet<>());
         }
     }
     private void dibujarArbolRecursivo(Nodo nodo, double x, double y, double offsetX, GraphicsContext gc, Set<Nodo> visitados) {
@@ -398,8 +451,8 @@ public class ArbolUserController {
             gc.fillText(nodo.getNombre(), x - 5, y + 5);
 
             // Dibujar conexiones con los hijos
-            double offsetY = 90;
-            double extensionLinea = 40;
+            double offsetY =80;
+            double extensionLinea =100;
             List<Nodo> hijos = obtenerHijos(nodo);
             int cantidadHijos = hijos.size();
             double separacion = cantidadHijos == 0 ? 0 : (2 * offsetX) / (cantidadHijos + 1);
@@ -443,8 +496,8 @@ public class ArbolUserController {
             gc.fillText(nodo.getNombre(), x - 5, y + 5);
 
 
-            double offsetY = 70;
-            double extensionLinea = 20;
+            double offsetY = 120;
+            double extensionLinea = 80;
             for (Arista arista : grafo.getAristas()) {
                 if (arista.getOrigen() == nodo) {
                     Nodo hijo = arista.getDestino();
