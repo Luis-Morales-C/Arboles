@@ -9,21 +9,21 @@ import java.io.IOException;
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        showMainStage(stage);
+
         showInfoStage();
-        showArbolUserStage();
+
     }
 
-    private void showMainStage(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("arbolBinario.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 950, 650);
-        stage.setTitle("Insercion en un grafo");
-        stage.setScene(scene);
-        stage.show();
+    public void showMainStage() throws IOException {
+        Stage infoStage = new Stage();
+        FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("arbolBinario.fxml"));
+        Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
+        infoStage.setScene(scene);
+        infoStage.show();
     }
 
 
-    private void showInfoStage() throws IOException {
+    public void showInfoStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("informacion.fxml"));
         Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
@@ -31,7 +31,7 @@ public class MainApp extends Application {
         infoStage.setScene(scene);
         infoStage.show();
     }
-    private void showArbolUserStage() throws IOException {
+    public void showArbolUserStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("ArbolUser.fxml"));
         Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);

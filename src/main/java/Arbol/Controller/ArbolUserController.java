@@ -128,7 +128,8 @@ public class ArbolUserController {
 
     @FXML
     void obtenerDetallesArbol(ActionEvent event) {
-        // Obtener la raíz del árbol
+
+
         Nodo raiz = arbol.getNodos().get(0);
         String nodoRaiz = raiz.getNombre();
 
@@ -160,35 +161,41 @@ public class ArbolUserController {
         // Posición inicial en Y para las etiquetas
         double y = 10;
 
+        int tamanoTexto=15;
+        gc.setFont(Font.font(tamanoTexto));
         // Etiqueta para la raíz del árbol
         Label raizLabel = new Label("Raíz del árbol: " + nodoRaiz);
         raizLabel.setLayoutX(10);
         raizLabel.setLayoutY(y);
+        raizLabel.setFont(Font.font(tamanoTexto));
         anchorPaneDetalles.getChildren().add(raizLabel);
-        y += 25;
+        y += 27;
 
         // Etiqueta para las hojas del árbol
         Label hojasLabel = new Label("Hojas del árbol:");
         hojasLabel.setLayoutX(10);
         hojasLabel.setLayoutY(y);
+        hojasLabel.setFont(Font.font(tamanoTexto));
         anchorPaneDetalles.getChildren().add(hojasLabel);
-        y += 25;
+        y += 27;
 
         // Mostrar cada hoja en una etiqueta separada
         for (Nodo hoja : hojas) {
             Label hojaLabel = new Label(hoja.getNombre());
             hojaLabel.setLayoutX(20);
             hojaLabel.setLayoutY(y);
+            hojaLabel.setFont(Font.font(tamanoTexto));
             anchorPaneDetalles.getChildren().add(hojaLabel);
-            y += 15; // Incrementar la posición Y para la próxima etiqueta
+            y += 17; // Incrementar la posición Y para la próxima etiqueta
         }
 
         // Etiqueta para los vértices internos del árbol
         Label verticesInternosLabel = new Label("Vértices internos del árbol:");
         verticesInternosLabel.setLayoutX(10);
         verticesInternosLabel.setLayoutY(y);
+        verticesInternosLabel.setFont(Font.font(tamanoTexto));
         anchorPaneDetalles.getChildren().add(verticesInternosLabel);
-        y += 25;
+        y += 17;
 
         // Mostrar los vértices internos del árbol
         for (Nodo vertice : verticesInternos) {
@@ -196,13 +203,14 @@ public class ArbolUserController {
             verticeLabel.setLayoutX(20);
             verticeLabel.setLayoutY(y);
             anchorPaneDetalles.getChildren().add(verticeLabel);
-            y += 15;
+            y += 17;
         }
 
         // Etiqueta para la topología del árbol
         Label topologiaLabel = new Label("Tipo de arbol:");
         topologiaLabel.setLayoutX(10);
         topologiaLabel.setLayoutY(y);
+        topologiaLabel.setFont(Font.font(tamanoTexto));
         anchorPaneDetalles.getChildren().add(topologiaLabel);
         y += 30;
 
@@ -219,13 +227,15 @@ public class ArbolUserController {
         Label nivelesLabel = new Label("Número de niveles del árbol: " + niveles);
         nivelesLabel.setLayoutX(10);
         nivelesLabel.setLayoutY(y);
+        nivelesLabel.setFont(Font.font(tamanoTexto));
         anchorPaneDetalles.getChildren().add(nivelesLabel);
-        y += 25;
+        y += 27;
 
         // Etiqueta para el peso del árbol
         Label pesoArbolLabel = new Label("Peso del árbol: " + pesoArbol);
         pesoArbolLabel.setLayoutX(10);
         pesoArbolLabel.setLayoutY(y);
+        pesoArbolLabel.setFont(Font.font(tamanoTexto));
         anchorPaneDetalles.getChildren().add(pesoArbolLabel);
     }
 

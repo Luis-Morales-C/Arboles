@@ -34,22 +34,22 @@ public class Grafo {
 
 
     public Nodo encontrarRaiz() {
-        // Crear un conjunto para almacenar los nodos que son destinos de alguna arista
+
         Set<Nodo> nodosDestino = new HashSet<>();
 
-        // Agregar todos los destinos de las aristas al conjunto
         for (Arista arista : aristas) {
             nodosDestino.add(arista.getDestino());
         }
 
-        // Iterar sobre todos los nodos y encontrar aquel que no está en el conjunto de destinos
+
+
         for (Nodo nodo : nodos) {
             if (!nodosDestino.contains(nodo)) {
-                return nodo; // Este es el nodo raíz
+                return nodo;
             }
         }
 
-        return null; // Si no se encuentra ningún nodo que cumpla la condición, retornar null
+        return null;
     }
 
     public void agregarNodo(Nodo nodo) {
@@ -183,7 +183,7 @@ public class Grafo {
                 contadorVecinos++;
             }
         }
-        return contadorVecinos == 0; // Un nodo es hoja si no tiene aristas de salida
+        return contadorVecinos == 0;
     }
 
 
