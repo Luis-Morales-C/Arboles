@@ -67,10 +67,19 @@ public class Grafo {
                 aristasAEliminar.add(arista);
             }
         }
+        for (Arista arista : aristasAEliminar) {
+            String clave = obtenerClave(arista);
+            int contador = contadorAristas.get(clave);
+            if (contador == 1) {
+                contadorAristas.remove(clave);
+            } else {
+                contadorAristas.put(clave, contador - 1);
+            }
+        }
         aristas.removeAll(aristasAEliminar);
-
         nodos.remove(nodo);
     }
+
     private List<Arista> obtenerAristasDelNodo(Nodo nodo) {
         List<Arista> aristasNodo = new ArrayList<>();
         for (Arista arista : aristas) {

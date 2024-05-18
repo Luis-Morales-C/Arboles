@@ -80,50 +80,6 @@ public class ArbolUserController {
         });
     }
 
-    @FXML
-    void crearArbol(ActionEvent event) {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Crear Árbol");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Ingrese el nombre de la raíz del árbol:");
-
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(nombreRaiz -> {
-            Nodo raiz = grafo.getNodos().stream()
-                    .filter(nodo -> nodo.getNombre().equals(nombreRaiz))
-                    .findFirst()
-                    .orElse(null);
-
-            if (raiz != null) {
-                arbol = new Grafo(); // Reinicia el grafo del árbol
-                construirArbol(raiz); // Construye el árbol a partir de la raíz seleccionada
-            } else {
-                mostrarMensajeError("El nodo raíz especificado no existe en el grafo.");
-            }
-        });
-    }
-
-    private void construirArbol(Nodo nodo) {
-        Queue<Nodo> cola = new LinkedList<>();
-        Set<Nodo> visitados = new HashSet<>();
-
-        cola.offer(nodo);
-        visitados.add(nodo);
-
-        while (!cola.isEmpty()) {
-            Nodo nodoActual = cola.poll();
-            arbol.agregarNodo(nodoActual);
-
-            List<Nodo> vecinos = grafo.obtenerVecinos(nodoActual);
-            for (Nodo vecino : vecinos) {
-                if (!visitados.contains(vecino)) {
-                    visitados.add(vecino);
-                    cola.offer(vecino);
-                    arbol.agregarArista(new Arista(nodoActual, vecino));
-                }
-            }
-        }
-    }
 
 
     @FXML
@@ -397,73 +353,83 @@ public class ArbolUserController {
 
         dibujar();
     }
+    @FXML
+    void crearArbol(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Crear Árbol");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Ingrese el nombre de la raíz del árbol:");
 
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(nombreRaiz -> {
+            Nodo raiz = grafo.getNodos().stream()
+                    .filter(nodo -> nodo.getNombre().equals(nombreRaiz))
+                    .findFirst()
+                    .orElse(null);
 
+            if (raiz != null) {
+                arbol = new Grafo(); // Reinicia el grafo del árbol
+                construirArbol(raiz); // Construye el árbol a partir de la raíz seleccionada
+                dibujarArbol();
+            } else {
+                mostrarMensajeError("El nodo raíz especificado no existe en el grafo.");
+            }
+        });
+    }
+
+    private void construirArbol(Nodo nodo) {
+        Queue<Nodo> cola = new LinkedList<>();
+        Set<Nodo> visitados = new HashSet<>();
+
+        cola.offer(nodo);
+        visitados.add(nodo);
+        arbol.agregarNodo(nodo); // Agregar el nodo raíz al árbol
+
+        while (!cola.isEmpty()) {
+            Nodo nodoActual = cola.poll();
+
+            List<Nodo> vecinos = grafo.obtenerVecinos(nodoActual);
+            for (Nodo vecino : vecinos) {
+                if (!visitados.contains(vecino)) {
+                    visitados.add(vecino);
+                    cola.offer(vecino);
+                    arbol.agregarNodo(vecino);
+                    arbol.agregarArista(new Arista(nodoActual, vecino));
+                }
+            }
+        }
+    }
 
     @FXML
     void dibujarArbol() {
         GraphicsContext gc = canvasArbol.getGraphicsContext2D();
         gc.clearRect(0, 0, canvasArbol.getWidth(), canvasArbol.getHeight());
 
-        if(grafo.estaVacio()){
-            mostrarMensajeError("el grafo esta vacio");
-            return;
-        }
-        if(grafo.esMultigrafo()){
-            mostrarMensajeError("el grafo es un multigrafo");
+        if (arbol.estaVacio()) {
+            mostrarMensajeError("El árbol está vacío.");
             return;
         }
 
-        if (!grafo.esConexo()) {
-            mostrarMensajeError("El grafo no es conexo.");
-            return;
-        }
+        Nodo raiz = arbol.getNodos().get(0); // Obtener la raíz del árbol
 
-        String circuito = grafo.encontrarCircuito();
-        if (!circuito.equals("No existen circuitos")) {
-            mostrarMensajeError("El grafo contiene un circuito: " + circuito);
-            return;
-        }
-
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Nombre del Nodo Raíz");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Ingrese el nombre del nodo raíz:");
-        Optional<String> result = dialog.showAndWait();
-        String nombreNodoRaiz = result.orElse("");
-
-        Nodo nodoRaiz = null;
-        for (Nodo nodo : grafo.getNodos()) {
-            if (nodo.getNombre().equals(nombreNodoRaiz)) {
-                nodoRaiz = nodo;
-                break;
-            }
-        }
-
-        if (nodoRaiz != null) {
-            dibujarArbolRecursivo(nodoRaiz, canvasArbol.getWidth() / 2, 50, 200, gc, new HashSet<>());
-        }
+        dibujarArbolRecursivo(raiz, canvasArbol.getWidth() / 2, 50, 200, gc, new HashSet<>());
     }
+
     private void dibujarArbolRecursivo(Nodo nodo, double x, double y, double offsetX, GraphicsContext gc, Set<Nodo> visitados) {
         if (nodo != null && !visitados.contains(nodo)) {
             visitados.add(nodo);
 
             // Dibujar nodo
             double radio = 20;
-            Color colorRelleno = Color.BLACK;
-            Color colorTexto = Color.CYAN;
-            int tamanoTexto = 18;
-
-            gc.setFill(colorRelleno);
+            gc.setFill(Color.BLACK);
             gc.fillOval(x - radio, y - radio, 2 * radio, 2 * radio);
-            gc.setFill(colorTexto);
-            gc.setFont(Font.font(tamanoTexto));
+            gc.setFill(Color.CYAN);
+            gc.setFont(Font.font(18));
             gc.fillText(nodo.getNombre(), x - 5, y + 5);
 
             // Dibujar conexiones con los hijos
-            double offsetY =80;
-            double extensionLinea =100;
-            List<Nodo> hijos = obtenerHijos(nodo);
+            double offsetY = 80;
+            List<Nodo> hijos = obtenerHijos(arbol, nodo); // Obtener hijos en el árbol construido
             int cantidadHijos = hijos.size();
             double separacion = cantidadHijos == 0 ? 0 : (2 * offsetX) / (cantidadHijos + 1);
             double xHijo = x - offsetX;
@@ -476,17 +442,16 @@ public class ArbolUserController {
         }
     }
 
-    private List<Nodo> obtenerHijos(Nodo nodo) {
+    private List<Nodo> obtenerHijos(Grafo arbol, Nodo nodo) {
         List<Nodo> hijos = new ArrayList<>();
-        for (Arista arista : grafo.getAristas()) {
-            if (arista.getOrigen() == nodo) {
+        for (Arista arista : arbol.getAristas()) {
+            if (arista.getOrigen().equals(nodo)) {
                 hijos.add(arista.getDestino());
-            } else if (arista.getDestino() == nodo) {
-                hijos.add(arista.getOrigen());
             }
         }
         return hijos;
     }
+
     private void dibujarNodo(Nodo nodo, double x, double y, double offsetX, GraphicsContext gc) {
         if (nodo != null) {
 
