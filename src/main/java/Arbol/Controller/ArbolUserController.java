@@ -53,6 +53,17 @@ public class ArbolUserController {
     private AnchorPane anchorPaneDetallesNodo;
 
     @FXML
+    private Button btnArbolBinarioCompleto;
+
+    @FXML
+    private Button btnArbolBinarioDegenerado;
+
+    @FXML
+    private Button btnArbolBinarioLleno;
+
+
+
+    @FXML
     void obtenerInfoNodo(ActionEvent event) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Obtener información del nodo");

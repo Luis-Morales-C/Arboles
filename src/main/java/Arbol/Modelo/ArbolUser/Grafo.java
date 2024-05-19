@@ -506,11 +506,6 @@ public class Grafo {
         return hijos;
     }
 
-
-
-
-
-
     public List<Nodo> getNodos() {
         return nodos;
     }

@@ -107,6 +107,45 @@ public class ArbolBinario {
         }
     }
 
+    public String recorridoInOrden() {
+        StringBuilder resultado = new StringBuilder();
+        recorridoInOrdenRecursivo(nodoRaiz, resultado);
+        return resultado.toString();
+    }
+
+    private void recorridoInOrdenRecursivo(Nodo nodo, StringBuilder resultado) {
+        if (nodo != null) {
+            recorridoInOrdenRecursivo(nodo.getNodoIzquierda(), resultado);
+            resultado.append(nodo.getValorNodo()).append(" ");
+            recorridoInOrdenRecursivo(nodo.getNodoDerecha(), resultado);
+        }
+    }
+    public String recorridoPreOrden() {
+        StringBuilder resultado = new StringBuilder();
+        recorridoPreOrdenRecursivo(nodoRaiz, resultado);
+        return resultado.toString();
+    }
+
+    private void recorridoPreOrdenRecursivo(Nodo nodo, StringBuilder resultado) {
+        if (nodo != null) {
+            resultado.append(nodo.getValorNodo()).append(" ");
+            recorridoPreOrdenRecursivo(nodo.getNodoIzquierda(), resultado);
+            recorridoPreOrdenRecursivo(nodo.getNodoDerecha(), resultado);
+        }
+    }
+    public String recorridoPostOrden() {
+        StringBuilder resultado = new StringBuilder();
+        recorridoPostOrdenRecursivo(nodoRaiz, resultado);
+        return resultado.toString();
+    }
+
+    private void recorridoPostOrdenRecursivo(Nodo nodo, StringBuilder resultado) {
+        if (nodo != null) {
+            recorridoPostOrdenRecursivo(nodo.getNodoIzquierda(), resultado);
+            recorridoPostOrdenRecursivo(nodo.getNodoDerecha(), resultado);
+            resultado.append(nodo.getValorNodo()).append(" ");
+        }
+    }
 
     public void imprimirEnOrden() {
         imprimirEnOrdenRecursivo(nodoRaiz);
@@ -119,6 +158,35 @@ public class ArbolBinario {
             imprimirEnOrdenRecursivo(nodo.getNodoDerecha());
         }
     }
+    public int calcularPeso() {
+        return calcularPesoRecursivo(nodoRaiz);
+    }
+
+    private int calcularPesoRecursivo(Nodo nodo) {
+        if (nodo == null) {
+            return 0;
+        } else {
+            // Sumar 1 por el nodo actual y los nodos en los subárboles izquierdo y derecho
+            return 1 + calcularPesoRecursivo(nodo.getNodoIzquierda()) + calcularPesoRecursivo(nodo.getNodoDerecha());
+        }
+    }
+    public int calcularNivel() {
+        return calcularNivelRecursivo(nodoRaiz);
+    }
+
+    private int calcularNivelRecursivo(Nodo nodo) {
+        if (nodo == null) {
+            return -1; // No hay nodos, por lo tanto, el nivel es -1
+        } else {
+            // Calcular la profundidad máxima de los subárboles izquierdo y derecho
+            int nivelIzquierdo = calcularNivelRecursivo(nodo.getNodoIzquierda());
+            int nivelDerecho = calcularNivelRecursivo(nodo.getNodoDerecha());
+
+            // Retornar el nivel máximo de los subárboles izquierdo y derecho, más uno (para el nodo actual)
+            return Math.max(nivelIzquierdo, nivelDerecho) + 1;
+        }
+    }
+
 
     public Nodo getNodoRaiz() {
         return nodoRaiz;

@@ -44,39 +44,93 @@ public class ArbolBinarioController {
 
     @FXML
     void ObtenerDetalle(ActionEvent event) {
-        // Limpiar el contenido anterior en el Pane
         panaInformacion.getChildren().clear();
+
+        Nodo raiz = arbolBinario.getNodoRaiz();
+
+        double posY = 20; // Posición inicial en Y
+
+        // Etiqueta para la raíz del árbol
+        Label labelRaiz = new Label("Raíz del árbol: " + raiz.getValorNodo());
+        labelRaiz.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelRaiz);
+        posY += 27;
 
         // Obtener la lista de hojas del árbol binario
         List<Integer> hojas = arbolBinario.encontrarHojas();
+
+        // Etiqueta para las hojas del árbol
+        Label labelHojas = new Label("Hojas del árbol:");
+        labelHojas.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelHojas);
+        posY += 27;
+
+        // Mostrar cada hoja en una etiqueta separada
+        for (int hoja : hojas) {
+            Label hojaLabel = new Label(String.valueOf(hoja));
+            hojaLabel.setLayoutY(posY);
+            panaInformacion.getChildren().add(hojaLabel);
+            posY += 17; // Incrementar la posición Y para la próxima etiqueta
+        }
+
         // Obtener la lista de vértices internos del árbol binario
         List<Integer> verticesInternos = arbolBinario.encontrarVerticesInternos();
 
-
-        // Construir una representación de texto de la lista de hojas
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Hojas del árbol:\n");
-        for (int hoja : hojas) {
-            stringBuilder.append(hoja).append("\n");
-        }
-        String hojasTexto = stringBuilder.toString();
-
-        // Mostrar la representación de texto en el Pane
-        Label labelHojas = new Label(hojasTexto);
-        panaInformacion.getChildren().add(labelHojas);
-
-        // Construir una representación de texto de la lista de vértices internos
-        StringBuilder stringBuilder2 = new StringBuilder();
-        stringBuilder.append("Vértices internos del árbol:\n");
-        for (int vertice : verticesInternos) {
-            stringBuilder.append(vertice).append("\n");
-        }
-        String verticesTexto = stringBuilder.toString();
-
-        // Mostrar la representación de texto en el Pane
-        Label labelVertices = new Label(verticesTexto);
+        // Etiqueta para los vértices internos del árbol
+        Label labelVertices = new Label("Vértices internos del árbol:");
+        labelVertices.setLayoutY(posY);
         panaInformacion.getChildren().add(labelVertices);
+        posY += 17;
+
+        // Mostrar los vértices internos del árbol
+        for (int vertice : verticesInternos) {
+            Label verticeLabel = new Label(String.valueOf(vertice));
+            verticeLabel.setLayoutY(posY);
+            panaInformacion.getChildren().add(verticeLabel);
+            posY += 17;
+        }
+
+        // Etiqueta para el peso del árbol
+        int peso = arbolBinario.calcularPeso();
+        Label labelPeso = new Label("Peso: " + peso);
+        labelPeso.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelPeso);
+        posY += 27;
+
+        // Etiqueta para el nivel del árbol
+        int nivel = arbolBinario.calcularNivel();
+        Label labelNivel = new Label("Nivel: " + nivel);
+        labelNivel.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelNivel);
+        posY += 27;
+
+        // Obtener el recorrido inorden del árbol binario
+        String recorridoInOrden = arbolBinario.recorridoInOrden();
+
+        // Etiqueta para el recorrido inorden del árbol
+        Label labelRecorridoInOrden = new Label("Recorrido Inorden: " + recorridoInOrden);
+        labelRecorridoInOrden.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelRecorridoInOrden);
+        posY += 27;
+
+        // Obtener el recorrido preorden del árbol binario
+        String recorridoPreOrden = arbolBinario.recorridoPreOrden();
+
+        // Etiqueta para el recorrido preorden del árbol
+        Label labelRecorridoPreOrden = new Label("Recorrido Preorden: " + recorridoPreOrden);
+        labelRecorridoPreOrden.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelRecorridoPreOrden);
+        posY += 27;
+
+        // Obtener el recorrido postorden del árbol binario
+        String recorridoPostOrden = arbolBinario.recorridoPostOrden();
+
+        // Etiqueta para el recorrido postorden del árbol
+        Label labelRecorridoPostOrden = new Label("Recorrido Postorden: " + recorridoPostOrden);
+        labelRecorridoPostOrden.setLayoutY(posY);
+        panaInformacion.getChildren().add(labelRecorridoPostOrden);
     }
+
 
     @FXML
     void CrearNodo(ActionEvent event) {
