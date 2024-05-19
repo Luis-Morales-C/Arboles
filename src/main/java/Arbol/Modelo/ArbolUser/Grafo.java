@@ -14,6 +14,7 @@ public class Grafo {
         this.aristas = new ArrayList<>();
         contadorAristas = new HashMap<>();
     }
+
     public List<Nodo> obtenerVecinos(Nodo nodo) {
         List<Nodo> vecinos = new ArrayList<>();
 
@@ -42,7 +43,6 @@ public class Grafo {
         }
 
 
-
         for (Nodo nodo : nodos) {
             if (!nodosDestino.contains(nodo)) {
                 return nodo;
@@ -55,11 +55,13 @@ public class Grafo {
     public void agregarNodo(Nodo nodo) {
         nodos.add(nodo);
     }
+
     public void agregarArista(Arista arista) {
         aristas.add(arista);
         String clave = obtenerClave(arista);
         contadorAristas.put(clave, contadorAristas.getOrDefault(clave, 0) + 1);
     }
+
     public void eliminarNodo(Nodo nodo) {
         List<Arista> aristasAEliminar = new ArrayList<>();
         for (Arista arista : aristas) {
@@ -95,6 +97,7 @@ public class Grafo {
         String clave = obtenerClave(arista);
         return contadorAristas.getOrDefault(clave, 0);
     }
+
     public boolean esConexo() {
         if (nodos.isEmpty()) {
             return false;
@@ -236,7 +239,7 @@ public class Grafo {
     private int obtenerGradoNodo(Nodo nodo) {
         int grado = 0;
         for (Arista arista : aristas) {
-            if (arista.getOrigen() == nodo ) {
+            if (arista.getOrigen() == nodo) {
                 grado++;
             }
         }
@@ -244,10 +247,10 @@ public class Grafo {
     }
 
 
-
     public boolean esArbol() {
         return esConexo() && encontrarCircuito().equals("No existen circuitos");
     }
+
     public boolean estaVacio() {
         return nodos.isEmpty();
     }
@@ -270,6 +273,7 @@ public class Grafo {
 
         return false;
     }
+
     public int calcularNivelesGrafo(Nodo raiz) {
         int maxNivel = 0;
         Queue<Nodo> cola = new LinkedList<>();
@@ -299,9 +303,11 @@ public class Grafo {
 
         return maxNivel;
     }
+
     public int calcularPesoArbol() {
         return nodos.size();
     }
+
     public List<Nodo> encontrarVerticesInternos(Nodo raiz) {
         List<Nodo> verticesInternos = new ArrayList<>();
         for (Nodo nodo : this.nodos) {
@@ -311,6 +317,200 @@ public class Grafo {
         }
         return verticesInternos;
     }
+
+    public Nodo encontrarNodoPorNombre(String nombre) {
+        for (Nodo nodo : nodos) {
+            if (nodo.getNombre().equals(nombre)) {
+                return nodo;
+            }
+        }
+        return null;
+    }
+
+    private Map<Nodo, Integer> calcularNivelesDesdeRaiz(Nodo raiz) {
+        Map<Nodo, Integer> niveles = new HashMap<>();
+        Queue<Nodo> cola = new LinkedList<>();
+
+        cola.offer(raiz);
+        niveles.put(raiz, 0);
+
+        while (!cola.isEmpty()) {
+            Nodo nodoActual = cola.poll();
+            int nivelActual = niveles.get(nodoActual);
+
+            for (Arista arista : aristas) {
+                Nodo vecino = null;
+                if (arista.getOrigen().equals(nodoActual)) {
+                    vecino = arista.getDestino();
+                } else if (arista.getDestino().equals(nodoActual)) {
+                    vecino = arista.getOrigen();
+                }
+                if (vecino != null && !niveles.containsKey(vecino)) {
+                    niveles.put(vecino, nivelActual + 1);
+                    cola.offer(vecino);
+                }
+            }
+        }
+
+        return niveles;
+    }
+
+    public int obtenerNivelDeNodo(String nombreNodo) {
+        Nodo raiz = encontrarRaiz();
+        if (raiz == null) {
+            throw new IllegalStateException("El grafo no tiene una raíz definida.");
+        }
+
+        Nodo nodo = encontrarNodoPorNombre(nombreNodo);
+        if (nodo == null) {
+            throw new IllegalArgumentException("Nodo con nombre " + nombreNodo + " no encontrado.");
+        }
+
+        Map<Nodo, Integer> niveles = calcularNivelesDesdeRaiz(raiz);
+        return niveles.getOrDefault(nodo, -1);
+    }
+
+    public String determinarTipoNodo(String nombreNodo) {
+        Nodo nodo = encontrarNodoPorNombre(nombreNodo);
+
+        if (nodo == null) {
+            throw new IllegalArgumentException("El nodo con nombre " + nombreNodo + " no fue encontrado.");
+        }
+
+        if (nodo.equals(encontrarRaiz())) {
+            return "Raíz";
+        } else if (esHoja(nodo)) {
+            return "Hoja";
+        } else {
+            return "Vértice interno";
+        }
+    }
+
+    public String encontrarAncestros(String nombreNodo) {
+        StringBuilder ancestros = new StringBuilder();
+        Nodo nodo = encontrarNodoPorNombre(nombreNodo);
+        if (nodo == null) {
+            throw new IllegalArgumentException("El nodo con nombre " + nombreNodo + " no fue encontrado.");
+        }
+        encontrarAncestrosRecursivo(nodo, ancestros);
+        return ancestros.toString();
+    }
+
+    private void encontrarAncestrosRecursivo(Nodo nodo, StringBuilder ancestros) {
+        Nodo raiz = encontrarRaiz();
+        if (nodo.equals(raiz)) {
+            ancestros.append("");
+            return;
+        }
+
+        for (Arista arista : aristas) {
+            Nodo padre = null;
+            if (arista.getDestino().equals(nodo)) {
+                padre = arista.getOrigen();
+            } else if (arista.getOrigen().equals(nodo)) {
+                padre = arista.getDestino();
+            }
+            if (padre != null) {
+                ancestros.append(padre.getNombre()).append("  ");
+                encontrarAncestrosRecursivo(padre, ancestros);
+                return;
+            }
+        }
+    }
+    public String encontrarSucesores(String nombreNodo) {
+        StringBuilder sucesores = new StringBuilder();
+        Nodo nodo = encontrarNodoPorNombre(nombreNodo);
+        if (nodo == null) {
+            throw new IllegalArgumentException("El nodo con nombre " + nombreNodo + " no fue encontrado.");
+        }
+        encontrarSucesoresRecursivo(nodo, sucesores);
+        return sucesores.toString();
+    }
+
+    private void encontrarSucesoresRecursivo(Nodo nodo, StringBuilder sucesores) {
+        // Iterar sobre todas las aristas del grafo
+        for (Arista arista : aristas) {
+            // Verificar si el nodo es el origen de la arista
+            if (arista.getOrigen().equals(nodo)) {
+                Nodo sucesor = arista.getDestino();
+                sucesores.append(sucesor.getNombre()).append("  ");
+                encontrarSucesoresRecursivo(sucesor, sucesores);
+            }
+        }
+    }
+
+    public String encontrarPadre(String nombreNodo) {
+        Nodo nodo = encontrarNodoPorNombre(nombreNodo);
+        if (nodo == null) {
+            throw new IllegalArgumentException("El nodo con nombre " + nombreNodo + " no fue encontrado.");
+        }
+
+        Nodo padre = encontrarPadreRecursivo(nodo);
+        if (padre == null) {
+            return  nombreNodo + " es la raíz";
+        } else {
+            return  padre.getNombre();
+        }
+    }
+
+    private Nodo encontrarPadreRecursivo(Nodo nodo) {
+        Nodo raiz = encontrarRaiz();
+        if (nodo.equals(raiz)) {
+            return null;
+        }
+
+        for (Arista arista : aristas) {
+            Nodo padre = null;
+            if (arista.getDestino().equals(nodo)) {
+                padre = arista.getOrigen();
+            } else if (arista.getOrigen().equals(nodo)) {
+                padre = arista.getDestino();
+            }
+            if (padre != null) {
+                return padre;
+            }
+        }
+
+        return null;
+    }
+    public String encontrarHijos(String nombreNodo) {
+        Nodo nodo = encontrarNodoPorNombre(nombreNodo);
+        if (nodo == null) {
+            throw new IllegalArgumentException("El nodo con nombre " + nombreNodo + " no fue encontrado.");
+        }
+
+        List<Nodo> hijos = encontrarHijosRecursivo(nodo);
+        if (hijos.isEmpty()) {
+            return "no tiene hijos.";
+        } else {
+            StringBuilder result = new StringBuilder(nombreNodo );
+            for (Nodo hijo : hijos) {
+                result.append(hijo.getNombre()).append(", ");
+            }
+            result.delete(result.length() - 2, result.length()); // Eliminar la coma y el espacio final
+            return result.toString();
+        }
+    }
+
+    private List<Nodo> encontrarHijosRecursivo(Nodo nodo) {
+        List<Nodo> hijos = new ArrayList<>();
+        for (Arista arista : aristas) {
+            Nodo hijo = null;
+            if (arista.getOrigen().equals(nodo)) {
+                hijo = arista.getDestino();
+            }
+            if (hijo != null) {
+                hijos.add(hijo);
+            }
+        }
+        return hijos;
+    }
+
+
+
+
+
+
     public List<Nodo> getNodos() {
         return nodos;
     }

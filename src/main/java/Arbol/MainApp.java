@@ -29,8 +29,10 @@ public class MainApp extends Application {
         Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
         infoStage.setTitle("Informacion");
         infoStage.setScene(scene);
+        //infoStage.setFullScreen(true);  // Establece la pantalla completa
         infoStage.show();
     }
+
     public void showArbolUserStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("ArbolUser.fxml"));

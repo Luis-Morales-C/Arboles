@@ -9,35 +9,35 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: #F2EC9F;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolBinarioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #F2EC9F;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolBinarioController">
    <children>
-      <Button fx:id="btnCrearNodoBinario" layoutX="855.0" layoutY="149.0" mnemonicParsing="false" onAction="#CrearNodo" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Crear" textFill="WHITE" AnchorPane.rightAnchor="63.0" AnchorPane.topAnchor="149.0">
+      <Button fx:id="btnCrearNodoBinario" layoutX="1147.0" layoutY="150.0" mnemonicParsing="false" onAction="#CrearNodo" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Crear" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
          <effect>
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
          </effect></Button>
-      <Button fx:id="btEliminarNodoBinario" layoutX="856.0" layoutY="193.0" mnemonicParsing="false" onAction="#EliminarNodo" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #1B1B18;" text="Eliminar" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="63.0" AnchorPane.topAnchor="193.0">
+      <Button fx:id="btEliminarNodoBinario" layoutX="1148.0" layoutY="204.0" mnemonicParsing="false" onAction="#EliminarNodo" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #1B1B18;" text="Eliminar" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
          <effect>
             <ColorAdjust brightness="0.25" contrast="0.07" hue="0.71" />
          </effect></Button>
-      <TextField fx:id="labelValorNodo" layoutX="842.0" layoutY="111.0" prefHeight="25.0" prefWidth="96.0" AnchorPane.leftAnchor="842.0" AnchorPane.topAnchor="111.0" />
-      <Label layoutX="585.0" layoutY="113.0" prefHeight="22.0" prefWidth="257.0" text="Ingrese el valor del Nodo" AnchorPane.leftAnchor="585.0" AnchorPane.topAnchor="113.0">
+      <TextField fx:id="labelValorNodo" layoutX="1120.0" layoutY="112.0" prefHeight="25.0" prefWidth="124.0" />
+      <Label layoutX="814.0" layoutY="114.0" prefHeight="22.0" prefWidth="257.0" text="Ingrese el valor del Nodo" AnchorPane.leftAnchor="814.0">
          <font>
             <Font name="Sitka Text" size="18.0" />
          </font></Label>
-      <Canvas fx:id="canvas" height="567.0" layoutX="14.0" layoutY="82.0" width="562.0" />
-      <Pane fx:id="panaInformacion" layoutX="531.0" layoutY="300.0" prefHeight="311.0" prefWidth="436.0" />
-      <Label layoutX="585.0" layoutY="223.0" prefHeight="22.0" prefWidth="257.0" text="Obtener detalle del grafo">
+      <Canvas fx:id="canvas" height="567.0" layoutX="14.0" layoutY="82.0" width="737.0" />
+      <Pane fx:id="panaInformacion" layoutX="769.0" layoutY="380.0" prefHeight="362.0" prefWidth="484.0" />
+      <Label layoutX="925.0" layoutY="267.0" prefHeight="22.0" prefWidth="257.0" text="Obtener detalle del grafo">
          <font>
             <Font name="Sitka Text" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnObtener" layoutX="698.0" layoutY="253.0" mnemonicParsing="false" onAction="#ObtenerDetalle" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
+      <Button fx:id="btnObtener" layoutX="1001.0" layoutY="318.0" mnemonicParsing="false" onAction="#ObtenerDetalle" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -45,7 +45,7 @@
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
          </effect>
       </Button>
-      <Pane prefHeight="67.0" prefWidth="988.0" style="-fx-background-color: #716B1C;">
+      <Pane layoutY="-4.0" prefHeight="49.0" prefWidth="1280.0" style="-fx-background-color: #716B1C;">
          <children>
             <Label layoutX="115.0" layoutY="14.0" prefHeight="35.0" prefWidth="683.0" text="Crear un arbol Binario-Metodo de insercion ejemplo" textFill="#fbfff0">
                <font>

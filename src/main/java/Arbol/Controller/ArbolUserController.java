@@ -29,11 +29,6 @@ public class ArbolUserController {
     @FXML
     private Canvas canvasArbol;
 
-
-    @FXML
-    private Button btnObtener;
-
-
     private Grafo grafo = new Grafo();
 
     private GraphicsContext gc;
@@ -48,14 +43,95 @@ public class ArbolUserController {
     @FXML
     private Button btnEliminarNodo;
 
+
     private Grafo arbol = new Grafo();
 
+    @FXML
+    private Button btnObtenerInfoNodo;
 
     @FXML
-    void obtenerArbol(ActionEvent event) {
-        dibujarArbol();
+    private AnchorPane anchorPaneDetallesNodo;
 
+    @FXML
+    void obtenerInfoNodo(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Obtener información del nodo");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Ingrese el nombre del nodo del árbol para obtener su información:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (arbol.estaVacio()) {
+            mostrarMensajeError("Primero cree el árbol");
+        } else if (!result.isPresent()) {
+            mostrarMensajeError("Se cerró el diálogo sin ingresar un nombre de nodo.");
+        } else {
+            String nombreNodo = result.get();
+
+            if (arbol.encontrarNodoPorNombre(nombreNodo) == null) {
+                mostrarMensajeError("El nodo no existe en el árbol.");
+            } else {
+                int y = 25;
+                int tamanoTexto = 15;
+                anchorPaneDetallesNodo.getChildren().clear();
+
+                Label NodoLabel = new Label("Nodo: " +nombreNodo);
+                NodoLabel.setLayoutX(10);
+                NodoLabel.setLayoutY(y);
+                NodoLabel.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(NodoLabel);
+                y += 30;
+
+                Label nivelNodoLabel = new Label("Nivel del nodo: " + arbol.obtenerNivelDeNodo(nombreNodo));
+                nivelNodoLabel.setLayoutX(10);
+                nivelNodoLabel.setLayoutY(y);
+                nivelNodoLabel.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(nivelNodoLabel);
+                y += 30;
+
+                Label Tipo = new Label("Tipo nodo: " + arbol.determinarTipoNodo(nombreNodo));
+                Tipo.setLayoutX(10);
+                Tipo.setLayoutY(y);
+                Tipo.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(Tipo);
+                y += 30;
+
+                Label Padre= new Label("El padre del nodo es: " + arbol.encontrarPadre(nombreNodo));
+                Padre.setLayoutX(10);
+                Padre.setLayoutY(y);
+                Padre.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(Padre);
+                y += 30;
+
+                Label Hijos= new Label("Hijos del nodo : " + arbol.encontrarHijos(nombreNodo));
+                Hijos.setLayoutX(10);
+                Hijos.setLayoutY(y);
+                Hijos.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(Hijos);
+                y += 30;
+
+                String ancestros = arbol.encontrarAncestros(nombreNodo);
+                Label ancestrosLabel = new Label("Ancestros:" + ancestros);
+                ancestrosLabel.setLayoutX(10);
+                ancestrosLabel.setLayoutY(y);
+                ancestrosLabel.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(ancestrosLabel);
+                y += 30;
+
+                String sucesores = arbol.encontrarSucesores(nombreNodo);
+                Label sucesoresLabel = new Label("Sucesores :"+ sucesores);
+                sucesoresLabel.setLayoutX(10);
+                sucesoresLabel.setLayoutY(y);
+                sucesoresLabel.setFont(Font.font(tamanoTexto));
+                anchorPaneDetallesNodo.getChildren().add(sucesoresLabel);
+                y += 20;
+
+            }
+        }
     }
+
+
+
     @FXML
     private Button btnCrearArbol;
 
@@ -158,6 +234,7 @@ public class ArbolUserController {
             Label verticeLabel = new Label(vertice.getNombre());
             verticeLabel.setLayoutX(20);
             verticeLabel.setLayoutY(y);
+            verticeLabel.setFont(Font.font(tamanoTexto));
             anchorPaneDetalles.getChildren().add(verticeLabel);
             y += 17;
         }
@@ -175,8 +252,9 @@ public class ArbolUserController {
             Label descripcionLabel = new Label(descripcion);
             descripcionLabel.setLayoutX(20);
             descripcionLabel.setLayoutY(y);
+            descripcionLabel.setFont(Font.font(tamanoTexto));
             anchorPaneDetalles.getChildren().add(descripcionLabel);
-            y += 15;
+            y += 17;
         }
 
         // Etiqueta para el número de niveles del árbol
@@ -233,7 +311,6 @@ public class ArbolUserController {
     }
 
     private void crearNodo(double x, double y) {
-
         boolean dentroDeNodoExistente = false;
         for (Nodo nodo : grafo.getNodos()) {
             double distancia = Math.sqrt(Math.pow(x - nodo.getX(), 2) + Math.pow(y - nodo.getY(), 2));
@@ -243,7 +320,6 @@ public class ArbolUserController {
             }
         }
 
-
         if (!dentroDeNodoExistente) {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Nombre del Nodo");
@@ -252,13 +328,19 @@ public class ArbolUserController {
 
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(nombre -> {
-                Nodo nodo = new Nodo(x, y, nombre);
-                grafo.agregarNodo(nodo);
-                dibujar();
+                String nombreTrimmed = nombre.trim();
+                if (nombreTrimmed.isEmpty()) {
+                    mostrarMensajeError("El nombre del nodo no puede estar vacío.");
+                } else if (grafo.getNodos().stream().anyMatch(nodo -> nodo.getNombre().equals(nombreTrimmed))) {
+                    mostrarMensajeError("El nombre del nodo ya existe. Por favor, elija un nombre diferente.");
+                } else {
+                    Nodo nodo = new Nodo(x, y, nombreTrimmed);
+                    grafo.agregarNodo(nodo);
+                    dibujar();
+                }
             });
         }
     }
-
 
     private void dibujar() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -355,6 +437,26 @@ public class ArbolUserController {
     }
     @FXML
     void crearArbol(ActionEvent event) {
+        // Validar que el grafo sea conexo
+        if (!grafo.esConexo()) {
+            mostrarMensajeError("El grafo no es conexo.");
+            return;
+        }
+
+        // Validar que el grafo no sea un multigrafo
+        if (grafo.esMultigrafo()) {
+            mostrarMensajeError("El grafo es un multigrafo.");
+            return;
+        }
+
+        // Validar que el grafo no contenga circuitos
+        String circuito = grafo.encontrarCircuito();
+        if (!circuito.equals("No existen circuitos")) {
+            mostrarMensajeError("El grafo contiene un circuito: " + circuito);
+            return;
+        }
+
+        // Si todas las validaciones son exitosas, solicitar el nombre de la raíz
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Crear Árbol");
         dialog.setHeaderText(null);
