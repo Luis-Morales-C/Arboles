@@ -473,6 +473,7 @@ public class Grafo {
 
         return null;
     }
+
     public String encontrarHijos(String nombreNodo) {
         Nodo nodo = encontrarNodoPorNombre(nombreNodo);
         if (nodo == null) {
@@ -483,11 +484,11 @@ public class Grafo {
         if (hijos.isEmpty()) {
             return "no tiene hijos.";
         } else {
-            StringBuilder result = new StringBuilder(nombreNodo );
+            StringBuilder result = new StringBuilder();
             for (Nodo hijo : hijos) {
                 result.append(hijo.getNombre()).append(", ");
             }
-            result.delete(result.length() - 2, result.length()); // Eliminar la coma y el espacio final
+            result.delete(result.length() - 2, result.length());
             return result.toString();
         }
     }

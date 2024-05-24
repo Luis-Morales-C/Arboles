@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1464.0" style="-fx-background-color: #D7BDE2;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolUserController">
+<AnchorPane prefHeight="700.0" prefWidth="1464.0" style="-fx-background-color: #D7BDE2;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolUserController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#af83d3" height="612.0" layoutX="42.0" layoutY="65.0" stroke="#62199e" strokeType="INSIDE" strokeWidth="5.0" width="478.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#af83d3" height="576.0" layoutX="578.0" layoutY="96.0" stroke="#62199e" strokeType="INSIDE" strokeWidth="5.0" width="478.0" />
@@ -33,11 +33,11 @@
          <font>
             <Font name="Consolas" size="15.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="1220.0" layoutY="15.0" prefHeight="25.0" prefWidth="100.0" text="Detalles">
+      <Label alignment="CENTER" layoutX="1174.0" layoutY="17.0" prefHeight="25.0" prefWidth="100.0" text="Detalles">
          <font>
             <Font name="Consolas" size="20.0" />
          </font></Label>
-      <AnchorPane fx:id="anchorPaneDetalles" layoutX="1108.0" layoutY="80.0" prefHeight="270.0" prefWidth="323.0" />
+      <AnchorPane fx:id="anchorPaneDetalles" layoutX="1084.0" layoutY="80.0" prefHeight="291.0" prefWidth="358.0" />
       <Button fx:id="btnEliminarNodo" layoutX="411.0" layoutY="22.0" mnemonicParsing="false" onAction="#eliminarNodo" style="-fx-background-color: #1B1B18;" text="Eliminar" textFill="WHITE">
          <effect>
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
@@ -51,21 +51,21 @@
             <Font name="Consolas" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btnObtenerDetalles" layoutX="1217.0" layoutY="47.0" mnemonicParsing="false" onAction="#obtenerDetallesArbol" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
+      <Button fx:id="btnObtenerDetalles" layoutX="1171.0" layoutY="52.0" mnemonicParsing="false" onAction="#obtenerDetallesArbol" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
          <effect>
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
          </effect>
       </Button>
-      <Label alignment="CENTER" layoutX="1189.0" layoutY="371.0" prefHeight="25.0" prefWidth="159.0" text="Detalles nodo">
+      <Label alignment="CENTER" layoutX="1145.0" layoutY="370.0" prefHeight="25.0" prefWidth="159.0" text="Detalles nodo">
          <font>
-            <Font name="Sitka Text" size="20.0" />
+            <Font name="Consolas" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnObtenerInfoNodo" layoutX="1224.0" layoutY="406.0" mnemonicParsing="false" onAction="#obtenerInfoNodo" prefHeight="25.0" prefWidth="91.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
+      <Button fx:id="btnObtenerInfoNodo" layoutX="1179.0" layoutY="403.0" mnemonicParsing="false" onAction="#obtenerInfoNodo" prefHeight="25.0" prefWidth="91.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
          <effect>
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
          </effect>
       </Button>
-      <AnchorPane fx:id="anchorPaneDetallesNodo" layoutX="1107.0" layoutY="443.0" prefHeight="237.0" prefWidth="323.0" />
+      <AnchorPane fx:id="anchorPaneDetallesNodo" layoutX="1089.0" layoutY="443.0" prefHeight="256.0" prefWidth="341.0" />
    </children>
 </AnchorPane>

@@ -1,22 +1,26 @@
 package Arbol.Controller;
 
+import Arbol.MainApp;
 import Arbol.Modelo.ArbolUser.Arista;
 import Arbol.Modelo.ArbolUser.Grafo;
 import Arbol.Modelo.ArbolUser.Nodo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.QuadCurve;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -24,7 +28,6 @@ public class ArbolUserController {
 
     @FXML
     private Canvas canvas;
-
 
     @FXML
     private Canvas canvasArbol;
@@ -60,8 +63,6 @@ public class ArbolUserController {
 
     @FXML
     private Button btnArbolBinarioLleno;
-
-
 
     @FXML
     void obtenerInfoNodo(ActionEvent event) {
