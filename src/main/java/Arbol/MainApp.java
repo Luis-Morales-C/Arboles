@@ -17,29 +17,35 @@ public class MainApp extends Application {
     public void showMainStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("arbolBinario.fxml"));
-        Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
+        Scene scene = new Scene(fxmlLoaderInfo.load(), 1280, 800);
         infoStage.setScene(scene);
         infoStage.show();
+        infoStage.setResizable(false);
+        infoStage.centerOnScreen();
     }
 
 
     public void showInfoStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("informacion.fxml"));
-        Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
+        Scene scene = new Scene(fxmlLoaderInfo.load(), 1143, 698);
         infoStage.setTitle("Informacion");
         infoStage.setScene(scene);
         //infoStage.setFullScreen(true);  // Establece la pantalla completa
         infoStage.show();
+        infoStage.setResizable(false);
+        infoStage.centerOnScreen();
     }
 
     public void showArbolUserStage() throws IOException {
         Stage infoStage = new Stage();
         FXMLLoader fxmlLoaderInfo = new FXMLLoader(getClass().getResource("ArbolUser.fxml"));
-        Scene scene = new Scene(fxmlLoaderInfo.load(), 950, 650);
+        Scene scene = new Scene(fxmlLoaderInfo.load(), 1464, 700);
         infoStage.setTitle("Arbol user");
         infoStage.setScene(scene);
         infoStage.show();
+        infoStage.setResizable(false);
+        infoStage.centerOnScreen();
     }
 
 

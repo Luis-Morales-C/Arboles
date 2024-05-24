@@ -24,7 +24,7 @@ public class InformacionController {
     @FXML
     private ImageView image;
 
-    private MainApp main=new MainApp();
+    private MainApp main = new MainApp();
     @FXML
     void irArbolBinario(MouseEvent event) throws IOException {
         main.showMainStage();

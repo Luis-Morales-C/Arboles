@@ -7,52 +7,57 @@
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #F2EC9F;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolBinarioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #D7BDE2;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Arbol.Controller.ArbolBinarioController">
    <children>
-      <Button fx:id="btnCrearNodoBinario" layoutX="1147.0" layoutY="150.0" mnemonicParsing="false" onAction="#CrearNodo" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Crear" textAlignment="CENTER" textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ce97e1" height="677.0" layoutX="21.0" layoutY="84.0" stroke="#814ba8" strokeType="INSIDE" strokeWidth="10.0" width="787.0" />
+      <Button fx:id="btnCrearNodoBinario" layoutX="1139.0" layoutY="152.0" mnemonicParsing="false" onAction="#CrearNodo" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Crear" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="Consolas Bold" size="14.0" />
          </font>
          <effect>
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
          </effect></Button>
-      <Button fx:id="btEliminarNodoBinario" layoutX="1148.0" layoutY="204.0" mnemonicParsing="false" onAction="#EliminarNodo" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #1B1B18;" text="Eliminar" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="btEliminarNodoBinario" layoutX="1125.0" layoutY="206.0" mnemonicParsing="false" onAction="#EliminarNodo" prefHeight="27.0" prefWidth="98.0" style="-fx-background-color: #1B1B18;" text="Eliminar" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="Consolas Bold" size="14.0" />
          </font>
          <effect>
             <ColorAdjust brightness="0.25" contrast="0.07" hue="0.71" />
          </effect></Button>
-      <TextField fx:id="labelValorNodo" layoutX="1120.0" layoutY="112.0" prefHeight="25.0" prefWidth="124.0" />
-      <Label layoutX="814.0" layoutY="114.0" prefHeight="22.0" prefWidth="257.0" text="Ingrese el valor del Nodo" AnchorPane.leftAnchor="814.0">
+      <TextField fx:id="labelValorNodo" layoutX="1098.0" layoutY="111.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label layoutX="829.0" layoutY="113.0" prefHeight="22.0" prefWidth="269.0" text="Ingrese el valor del Nodo:" AnchorPane.leftAnchor="829.0">
          <font>
-            <Font name="Sitka Text" size="18.0" />
+            <Font name="Consolas" size="18.0" />
          </font></Label>
-      <Canvas fx:id="canvas" height="567.0" layoutX="14.0" layoutY="82.0" width="737.0" />
-      <Pane fx:id="panaInformacion" layoutX="769.0" layoutY="380.0" prefHeight="362.0" prefWidth="484.0" />
-      <Label layoutX="925.0" layoutY="267.0" prefHeight="22.0" prefWidth="257.0" text="Obtener detalle del grafo">
+      <Canvas fx:id="canvas" height="677.0" layoutX="60.0" layoutY="84.0" width="721.0" />
+      <Pane fx:id="panaInformacion" layoutX="888.0" layoutY="355.0" prefHeight="436.0" prefWidth="317.0" />
+      <Label layoutX="934.0" layoutY="270.0" prefHeight="22.0" prefWidth="225.0" text="Obtener detalle del grafo">
          <font>
             <Font name="Sitka Text" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnObtener" layoutX="1001.0" layoutY="318.0" mnemonicParsing="false" onAction="#ObtenerDetalle" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
+      <Button fx:id="btnObtener" layoutX="1005.0" layoutY="312.0" mnemonicParsing="false" onAction="#ObtenerDetalle" prefHeight="27.0" prefWidth="83.0" style="-fx-background-color: #1B1B18;" text="Obtener" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="Consolas Bold" size="14.0" />
          </font>
          <effect>
             <ColorAdjust brightness="0.24" contrast="0.07" hue="0.71" />
          </effect>
       </Button>
-      <Pane layoutY="-4.0" prefHeight="49.0" prefWidth="1280.0" style="-fx-background-color: #716B1C;">
+      <Pane layoutY="-4.0" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: #A569BD;">
          <children>
-            <Label layoutX="115.0" layoutY="14.0" prefHeight="35.0" prefWidth="683.0" text="Crear un arbol Binario-Metodo de insercion ejemplo" textFill="#fbfff0">
+            <Label layoutX="115.0" layoutY="14.0" prefHeight="35.0" prefWidth="690.0" text="Crear un árbol Binario - Método de inserción ejemplo">
                <font>
-                  <Font name="Sitka Text" size="24.0" />
+                  <Font name="Consolas Italic" size="24.0" />
                </font>
             </Label>
+            <Line endX="1119.0" layoutX="161.0" layoutY="1.0" startX="-161.0" startY="-1.0" />
          </children>
       </Pane>
+      <Line endX="552.0" layoutX="728.0" layoutY="56.0" startX="-728.0" />
    </children>
 </AnchorPane>
